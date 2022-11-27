@@ -4,15 +4,17 @@ import { List } from '../components/List'
 import { Card } from '../components/Card'
 import { Controls } from '../components/Controls'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectAllCountries, selectCountriesInfo } from '../store/countries/countries-selectors'
+import { selectCountriesInfo, selectVisibleCountries } from '../store/countries/countries-selectors'
 import { useEffect } from 'react'
 import { loadCountries } from '../store/countries/countries-actions'
+import { selectControls } from '../store/controls/controls-selectors'
 
 export const HomePage = () => {
 	const navigate					= useNavigate(),
 		  dispatch					= useDispatch(),
-		  countries					= useSelector( selectAllCountries ),
-		  { status, error, qty }	= useSelector( selectCountriesInfo )
+		  { status, error, qty }	= useSelector( selectCountriesInfo ),
+		  controls					= useSelector( selectControls ),
+		  countries					= useSelector( state => selectVisibleCountries( state, controls ) )
 
 	useEffect( () => {
 		if( ! qty ) dispatch( loadCountries() )
@@ -26,7 +28,7 @@ export const HomePage = () => {
 			{ status === 'loading' && <h2>Loading...</h2> }
 
 			{
-				( status === 'received' && qty ) && (
+				( status === 'received' && countries.length ) ? (
 					<List>
 						{ countries.map( c => {
 							const countryInfo = {
@@ -57,7 +59,7 @@ export const HomePage = () => {
 							)
 						} ) }
 					</List>
-				)
+				) : <h2>Nothing found</h2>
 			}
 
 		</>

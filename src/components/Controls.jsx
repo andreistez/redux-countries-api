@@ -1,16 +1,19 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-import { Search } from './Search';
-import { CustomSelect } from './CustomSelect';
+import { Search } from './Search'
+import { CustomSelect } from './CustomSelect'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectRegion } from '../store/controls/controls-selectors'
+import { setRegion } from '../store/controls/controls-actions'
 
 const optionsMap = {
-  'Africa': { value: 'Africa', label: 'Africa' },
-  'America': { value: 'America', label: 'America' },
-  'Asia': { value: 'Asia', label: 'Asia' },
-  'Europe': { value: 'Europe', label: 'Europe' },
-  'Oceania': { value: 'Oceania', label: 'Oceania' },
+	'Africa': { value: 'Africa', label: 'Africa' },
+	'America': { value: 'America', label: 'America' },
+	'Asia': { value: 'Asia', label: 'Asia' },
+	'Europe': { value: 'Europe', label: 'Europe' },
+	'Oceania': { value: 'Oceania', label: 'Oceania' }
 }
-const options = Object.values(optionsMap);
+const options = Object.values( optionsMap )
 
 const Wrapper = styled.div`
   display: flex;
@@ -22,20 +25,23 @@ const Wrapper = styled.div`
     justify-content: space-between;
     align-items: center;
   }
-`;
+`
 
 export const Controls = () => {
-  return (
-    <Wrapper>
-      <Search />
-      <CustomSelect
-        options={options}
-        placeholder="Filter by Region"
-        isClearable
-        isSearchable={false}
-        value={''}
-        onChange={() => {}}
-      />
-    </Wrapper>
-  );
-};
+	const region	= useSelector( selectRegion ),
+		  dispatch	= useDispatch()
+
+	return (
+		<Wrapper>
+			<Search />
+			<CustomSelect
+				options={ options }
+				placeholder="Filter by Region"
+				isClearable
+				isSearchable={ false }
+				value={ optionsMap[region] }
+				onChange={ e => dispatch( setRegion( e?.value || '' ) ) }
+			/>
+		</Wrapper>
+	)
+}
