@@ -7,7 +7,7 @@ import App from './App'
 
 import './index.css'
 import { Provider } from 'react-redux'
-import { persistor, store } from './store'
+import { persistor, store } from './store.js'
 
 ReactDOM.render(
 	<React.StrictMode>
