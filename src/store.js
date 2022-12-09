@@ -7,6 +7,7 @@ import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE } from 'redux-persist
 import themeReducer from './features/theme/themeSlice'
 import controlsReducer from './features/controls/controlsSlice'
 import countriesReducer from './features/countries/countriesSlice'
+import detailsReducer from './features/details/detailsSlice'
 
 import * as api from './config'
 
@@ -18,7 +19,8 @@ const persistConfig = {
 const reducers = combineReducers( {
 	theme		: themeReducer,
 	controls	: controlsReducer,
-	countries	: countriesReducer
+	countries	: countriesReducer,
+	details		: detailsReducer
 } )
 
 const _persistedReducer = persistReducer( persistConfig, reducers )
